@@ -1,0 +1,34 @@
+# Временные файлы и логи
+requp_update.txt
+*.log
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Локальные базы данных
+*.db
+include/transaction_generator/clean_transactions.jsonl
+include/transaction_generator/dirty_transactions.jsonl
+
+# Окружение и настройки IDE
+.venv/
+.vscode/
+
+# Секреты и контейнеры
+infrastructure/.env
+infrastructure/.devcontainer/
+
+# Инфраструктура Airflow и документация
+airflow/logs/
+documentation/
+
+# Специфичные модули и настройки
+include/config/s3_settings.py
+include/storage/s3_client.py
+include/transaction_generator/account_management/queryes.py
+
+# Локальные тесты и их кэш
+tests/
+.pytest_cache/
