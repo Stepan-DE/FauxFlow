@@ -17,6 +17,7 @@ include/transaction_generator/dirty_transactions.jsonl
 .vscode/
 
 # Секреты и контейнеры
+*.env
 infrastructure/.env
 infrastructure/.devcontainer/
 
