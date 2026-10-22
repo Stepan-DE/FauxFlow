@@ -68,14 +68,14 @@ def _resolve_level(level) -> float:
         if 0.0 <= level <= 1.0:
             return float(level)
         logger.error(
-            "polluter: level вне диапазона [0, 1]: %s", level
+            "level вне диапазона [0, 1]: %s", level
         )
         raise ValueError(f"level должен быть в диапазоне [0.0, 1.0], получен {level!r}")
 
     if isinstance(level, str) and level in LEVEL_PRESETS:
         return LEVEL_PRESETS[level]
 
-    logger.error("polluter: неизвестный level: %r", level)
+    logger.error("неизвестный level: %r", level)
     raise ValueError(
         f"неизвестный level {level!r}: допустимы пресеты "
         f"{sorted(LEVEL_PRESETS)} или число от 0.0 до 1.0"
@@ -97,7 +97,7 @@ def _is_number(value) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool)
 
 
-# отдельные обработчики 
+# отдельные обработчики
 
 def _dirt_amount_as_string(record: dict) -> bool:
     amount = record.get("amount")
@@ -248,7 +248,7 @@ def run(input_path, output_path, level=DEFAULT_LEVEL) -> dict:
     stats = _init_stats(rate)
     t_start = time.perf_counter()
 
-    logger.debug("polluter: старт, level=%s, rate=%s", level, rate)
+    logger.info("старт: level=%s, rate=%s", level, rate)
 
     input_file = None
     output_file = None
@@ -257,7 +257,7 @@ def run(input_path, output_path, level=DEFAULT_LEVEL) -> dict:
             input_file = open(os.fspath(input_path), "rb")
         except OSError as exc:
             logger.error(
-                "polluter: не удалось открыть входной файл %s: %s",
+                "не удалось открыть входной файл %s: %s",
                 input_path, exc,
             )
             raise
@@ -265,7 +265,7 @@ def run(input_path, output_path, level=DEFAULT_LEVEL) -> dict:
             output_file = open(os.fspath(output_path), "wb")
         except OSError as exc:
             logger.error(
-                "polluter: не удалось открыть выходной файл %s: %s",
+                "не удалось открыть выходной файл %s: %s",
                 output_path, exc,
             )
             raise
@@ -304,25 +304,28 @@ def run(input_path, output_path, level=DEFAULT_LEVEL) -> dict:
 
     stats["time_ms"] = (time.perf_counter() - t_start) * 1000
 
-    logger.debug(
-        "polluter: готово, прочитано %s, испорчено %s, неприменимо %s, время %.0f мс",
+    logger.info(
+        "готово: прочитано %s, испорчено %s, пропущено %s",
         _fmt(stats["total_read"]),
         _fmt(stats["dirtied"]),
         _fmt(stats["unapplied"]),
-        stats["time_ms"],
     )
+    logger.info("Время выполнения: %.0f мс", stats["time_ms"])
+
     applied_by_type = {t: c for t, c in stats["by_type"].items() if c > 0}
-    logger.debug("polluter: по типам: %s", applied_by_type)
+    logger.debug("по типам: %s", applied_by_type)
 
     return stats
 
 
 if __name__ == "__main__":
+    # тестовый ручной запуск
     clean_trz_path = 'include/transaction_generator/clean_transactions.jsonl'
     dirty_trz_path = 'include/transaction_generator/dirty_transactions.jsonl'
 
-    a = run(clean_trz_path, dirty_trz_path)
+    data = run(clean_trz_path, dirty_trz_path)
 
-    # print()
-    # for key, value in a.items():
-    #     print(f'{key}: {value}')
+    # удобный вывод статистики
+    print()
+    import json
+    print(json.dumps(data, indent=4, ensure_ascii=False))
