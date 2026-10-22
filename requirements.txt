@@ -1,3 +1,10 @@
+boto3==1.43.118
+botocore==1.43.118
 Faker==40.43.0
+jmespath==1.1.0
 numpy==1.26.4
 orjson==3.13.0
+python-dateutil==2.9.0.post0
+s3transfer==0.19.3
+six==1.17.0
+urllib3==2.8.0
