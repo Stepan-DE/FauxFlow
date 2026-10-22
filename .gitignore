@@ -26,8 +26,6 @@ airflow/logs/
 documentation/
 
 # Специфичные модули и настройки
-include/config/s3_settings.py
-include/storage/s3_client.py
 include/transaction_generator/account_management/queryes.py
 
 # Локальные тесты и их кэш
