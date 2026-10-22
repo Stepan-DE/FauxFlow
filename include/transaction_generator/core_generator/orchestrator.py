@@ -205,7 +205,7 @@ atexit.register(shutdown)
 
 
 if __name__ == "__main__":
-    start_time = time.perf_counter() # время начала генерации | для тестов
+    # тестовый ручной запуск
 
     window_start_date, window_start_time = '2026-10-19', '18:00:00'
     window_end_date, window_end_time = '2026-10-19', '18:01:00'
@@ -213,5 +213,9 @@ if __name__ == "__main__":
     window_start = datetime.fromisoformat(window_start_date + 'T' + window_start_time)
     window_end = datetime.fromisoformat(window_end_date + 'T' + window_end_time)
 
-    summary = transactions_generator(window_start, window_end)
-    # print(summary)
+    data = transactions_generator(window_start, window_end)
+
+    # удобный вывод статистики
+    print()
+    import json
+    print(json.dumps(data, indent=4, ensure_ascii=False))
