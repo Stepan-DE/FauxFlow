@@ -1,7 +1,7 @@
 FROM apache/airflow:2.7.1-python3.10
 
 # Добавляем путь к пользовательским пакетам и include
-ENV PYTHONPATH="/opt/airflow/include:/home/airflow/.local/lib/python3.10/site-packages:${PYTHONPATH}"
+ENV PYTHONPATH="/opt/airflow/include:/home/airflow/.local/lib/python3.10/site-packages"
 
 # Создаём пользователя с UID 1000
 ARG AIRFLOW_UID=1000
