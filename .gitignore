@@ -20,6 +20,7 @@ include/transaction_generator/dirty_transactions.jsonl
 *.env
 infrastructure/.env
 infrastructure/.devcontainer/
+include/config/s3_settings.py
 
 # Инфраструктура Airflow и документация
 airflow/logs/
