@@ -45,9 +45,12 @@ def _fmt(n) -> str:
     return f"{int(n):,}".replace(",", "_")
 
 
-def _normalize_moscow(dt: datetime, name: str) -> datetime:
-    """Приводит datetime к Europe/Moscow."""
+def _normalize_moscow(dt, name):
+    """Приводим pendulum.DateTime к stdlib datetime - иначе astimezone 
+    с zoneinfo падает с AttributeError: NoneType object has no attribute convert"""
 
+    if hasattr(dt, "isoformat"):
+        dt = datetime.fromisoformat(dt.isoformat().replace("Z", "+00:00"))
     if dt.tzinfo is None:
         return dt.replace(tzinfo=MSK)
     return dt.astimezone(MSK)
