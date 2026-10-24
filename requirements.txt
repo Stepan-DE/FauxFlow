@@ -8,3 +8,4 @@ python-dateutil==2.9.0.post0
 s3transfer==0.19.3
 six==1.17.0
 urllib3==2.8.0
+apache-airflow==2.7.1
