@@ -31,8 +31,11 @@ MSK = ZoneInfo("Europe/Moscow")
 
 
 def _to_msk(dt: datetime) -> datetime:
-    """Приводит datetime к Europe/Moscow."""
+    """Перевод времени в МСК: замена pendulum.
+    DateTime на stdlib datetime из-за ошибки astimezone(ZoneInfo)."""
 
+    if hasattr(dt, "isoformat"):
+        dt = datetime.fromisoformat(dt.isoformat().replace("Z", "+00:00"))
     if dt.tzinfo is None:
         return dt.replace(tzinfo=MSK)
     return dt.astimezone(MSK)
@@ -136,6 +139,7 @@ def upload_to_s3(
 
 
 if __name__ == "__main__":
+    pass
     # import tempfile
 
     # logging.basicConfig(
